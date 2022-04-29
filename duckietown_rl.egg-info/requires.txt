@@ -1,0 +1,8 @@
+gym==0.15.4
+gym_duckietown_agent>=2018.08
+hyperdash
+sklearn
+torch
+numpy
+matplotlib
+scipy<=1.2.1
