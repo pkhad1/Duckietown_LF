@@ -51,14 +51,14 @@ if not os.path.exists("./results"):
 if args.save_models and not os.path.exists("./pytorch_models"):
     os.makedirs("./pytorch_models")
 
-env = launch_env()
+env1 = launch_env()
 
 # Set seeds
 seed(args.seed)
 
-state_dim = env.observation_space.shape
-action_dim = env.action_space.shape[0]
-max_action = float(env.action_space.high[0])
+state_dim = env1.observation_space.shape
+action_dim = env1.action_space.shape[0]
+max_action = float(env1.action_space.high[0])
 
 
 # Initialize policy
@@ -67,7 +67,7 @@ policy = DDPG(state_dim, action_dim, max_action, net_type="cnn")
 replay_buffer = ReplayBuffer(args.replay_buffer_max_size)
 
 # Evaluate untrained policy
-evaluations = [evaluate_policy(env, policy)]
+evaluations = [evaluate_policy(env1, policy)]
 
 total_timesteps = 0
 timesteps_since_eval = 0
@@ -115,20 +115,20 @@ while total_timesteps < args.max_timesteps:
 
     # Select action randomly or according to policy
     if total_timesteps < args.start_timesteps:
-        action = env.action_space.sample()
+        action = env1.action_space.sample()
     else:
         action = policy.predict(np.array(obs))
         if args.expl_noise != 0:
             action = (action + np.random.normal(0, args.expl_noise, size=env.action_space.shape[0])).clip(
-                env.action_space.low, env.action_space.high
+                env1.action_space.low, env1.action_space.high
             )
 
     # Perform action
-    new_obs, reward, done, _ = env.step(action)
+    new_obs, reward, done, _ = env1.step(action)
     if (
         action[0] < 0.01
     ):  # Penalise slow actions: helps the bot to figure out that going straight > turning in circles
-        reward = -5
+        reward = -10
 
     if episode_timesteps >= args.env_timesteps:
         done = True
@@ -147,7 +147,7 @@ while total_timesteps < args.max_timesteps:
     timesteps_since_eval += 1
 
 # Final evaluation
-evaluations.append(evaluate_policy(env, policy))
+evaluations.append(evaluate_policy(env1, policy))
 
 if args.save_models:
     policy.save(file_name, directory="./pytorch_models")
