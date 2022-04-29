@@ -67,7 +67,7 @@ policy = DDPG(state_dim, action_dim, max_action, net_type="cnn")
 replay_buffer = ReplayBuffer(args.replay_buffer_max_size)
 
 # Evaluate untrained policy
-evaluations = [evaluate_policy(env1, policy)]
+evaluations = [evaluate_policy(env, policy)]
 
 total_timesteps = 0
 timesteps_since_eval = 0
