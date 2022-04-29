@@ -56,12 +56,12 @@ class DtRewardWrapper(gym.RewardWrapper):
         super(DtRewardWrapper, self).__init__(env)
 
     def reward(self, reward):
-        if reward == -1000:
-            reward = -10
-        elif reward > 0:
+        if reward > 250:
+            reward += 50
+        elif reward > 50:
             reward += 10
         else:
-            reward += 4
+            reward += 1
 
         return reward
 
