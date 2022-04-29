@@ -51,14 +51,14 @@ if not os.path.exists("./results"):
 if args.save_models and not os.path.exists("./pytorch_models"):
     os.makedirs("./pytorch_models")
 
-env1 = launch_env()
+env = launch_env()
 
 # Set seeds
 seed(args.seed)
 
-state_dim = env1.observation_space.shape
-action_dim = env1.action_space.shape[0]
-max_action = float(env1.action_space.high[0])
+state_dim = env.observation_space.shape
+action_dim = env.action_space.shape[0]
+max_action = float(env.action_space.high[0])
 
 
 # Initialize policy
@@ -115,16 +115,16 @@ while total_timesteps < args.max_timesteps:
 
     # Select action randomly or according to policy
     if total_timesteps < args.start_timesteps:
-        action = env1.action_space.sample()
+        action = env.action_space.sample()
     else:
         action = policy.predict(np.array(obs))
         if args.expl_noise != 0:
             action = (action + np.random.normal(0, args.expl_noise, size=env.action_space.shape[0])).clip(
-                env1.action_space.low, env1.action_space.high
+                env.action_space.low, env.action_space.high
             )
 
     # Perform action
-    new_obs, reward, done, _ = env1.step(action)
+    new_obs, reward, done, _ = env.step(action)
     if (
         action[0] < 0.01
     ):  # Penalise slow actions: helps the bot to figure out that going straight > turning in circles
@@ -147,7 +147,7 @@ while total_timesteps < args.max_timesteps:
     timesteps_since_eval += 1
 
 # Final evaluation
-evaluations.append(evaluate_policy(env1, policy))
+evaluations.append(evaluate_policy(env, policy))
 
 if args.save_models:
     policy.save(file_name, directory="./pytorch_models")
