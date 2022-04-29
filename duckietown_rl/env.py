@@ -30,7 +30,7 @@ def launch_env(id=None):
         env = gym.make(id)
 
     # Wrappers
-    #env = ResizeWrapper(env)
+    env = ResizeWrapper(env)
     env = NormalizeWrapper(env)
     env = ImgWrapper(env)  # to make the images from 160x120x3 into 3x160x120
     env = SteeringToWheelVelWrapper(env)
