@@ -15,9 +15,11 @@ class ResizeWrapper(gym.ObservationWrapper):
             dtype=self.observation_space.dtype,
         )
         self.shape = shape
+        
     def observation(self, observation):
 
         return np.array(Image.fromarray(observation).resize(self.shape[0:2]))
+        
 
 
 class NormalizeWrapper(gym.ObservationWrapper):
