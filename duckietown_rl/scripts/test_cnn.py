@@ -39,8 +39,8 @@ with torch.no_grad():
 
             print(action)
            
-            
-            r = [0.5 , 0.5]
+            #action[0] is the linear velocity and action [1] is angular velocity
+            r = [0.5 , 0.5] # reduce the angular speed and angular velocity by 0.5 each
             
             obs, rew, done, misc = env.step(r)
             rewards.append(rew)
