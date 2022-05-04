@@ -57,11 +57,11 @@ class DtRewardWrapper(gym.RewardWrapper):
 
     def reward(self, reward):
         if reward > 250:
-            reward += 50
-        elif reward > 50:
             reward += 10
+        elif reward > 20:
+            reward += 3
         else:
-            reward += 4
+            reward -= 5
 
         return reward
 
