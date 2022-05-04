@@ -86,7 +86,7 @@ while total_timesteps < args.max_timesteps:
         if total_timesteps != 0:
             print("Replay buffer length is ", len(replay_buffer.storage))
             print(
-                ("Total T: %d Episode Num: %d Episode T: %d Reward: %3f RATIO: %2f")
+                ("Total T: %d Episode Num: %d Episode T: %d Reward: %1f RATIO: %1f")
                 % (total_timesteps, episode_num, episode_timesteps, episode_reward, episode_reward/episode_timesteps)
             )
             policy.train(replay_buffer, episode_timesteps, args.batch_size, args.discount, args.tau)
