@@ -126,7 +126,7 @@ while total_timesteps < args.max_timesteps:
     # Perform action
     new_obs, reward, done, _ = env.step(action)
     if (
-        action[0] < 0.001
+        action[0] < 0.2
     ):  # Penalise slow actions: helps the bot to figure out that going straight > turning in circles
         reward = -10
 
